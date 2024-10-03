@@ -6,5 +6,7 @@ def get_price(link, headers, element, class_name):
 
     soup = BeautifulSoup(res.content, "html.parser")
     price = soup.find(element, {"class": class_name}).text
+    
+    price = price[1:3:] + price[4::]
 
-    return price
+    return float(price)
