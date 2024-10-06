@@ -3,7 +3,7 @@ import threading
 import telebot
 from get_price import get_price
 
-bot = telebot.TeleBot(token="API_TOKEN")
+bot = telebot.TeleBot(token="7784526991:AAEzGkfb2vMpPhEh-ullq6Cu6J--k11LOTo")
 
 link = "https://coinmarketcap.com/currencies/bitcoin/"
 
@@ -20,11 +20,18 @@ def main(message):
 def track(message):
     last_price = 0
 
-    while True:
-        if last_price != get_price(link=link, headers=headers, element="span", class_name="clvjgF"):
-            price = get_price(link=link, headers=headers, element="span", class_name="clvjgF")
-            bot.send_message(message.chat.id, price)
-            last_price = get_price(link=link, headers=headers, element="span", class_name="clvjgF")
+    if get_price(link=link, headers=headers, element="span", class_name="clvjgF") == 0:
+        bot.send_message(message.chat.id, "The price tracking is currently unavailable")
+
+    try:
+        while True:
+            if last_price != get_price(link=link, headers=headers, element="span", class_name="clvjgF"):
+                price = get_price(link=link, headers=headers, element="span", class_name="clvjgF")
+                bot.send_message(message.chat.id, price)
+                last_price = get_price(link=link, headers=headers, element="span", class_name="clvjgF")
+    except Exception as e:
+        bot.send_message(message.chat.id, "An error occurred. Please restart the bot")
+        print(e)
 
 def monitor_price(chat_id, target_price, bot, link, headers, element, class_name):
     last_price = 0
