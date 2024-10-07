@@ -3,7 +3,7 @@ import threading
 import telebot
 from get_price import get_price
 
-bot = telebot.TeleBot(token="7784526991:AAEzGkfb2vMpPhEh-ullq6Cu6J--k11LOTo")
+bot = telebot.TeleBot(token="API_KEY")
 
 link = "https://coinmarketcap.com/currencies/bitcoin/"
 
